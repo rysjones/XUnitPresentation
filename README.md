@@ -1,5 +1,3 @@
 # XUnit Introduction
 
 - 
-
-
