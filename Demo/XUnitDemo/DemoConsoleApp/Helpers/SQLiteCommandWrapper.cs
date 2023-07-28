@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SQLite;
 
 namespace DemoConsoleApp.Helpers
 {
@@ -22,17 +16,20 @@ namespace DemoConsoleApp.Helpers
             throw new NotImplementedException();
         }
 
-        public object ExecuteScalar()
+        public virtual object ExecuteScalar()
         {
             return (long)_command.ExecuteScalar();
         }
 
-        public void ParametersAddWithValue(string paramName, object value)
+        public virtual void ParametersAddWithValue(string paramName, object value)
         {
             _command.Parameters.AddWithValue(paramName, value);
         }
-
-        // Implement IDisposable and other methods as needed
     }
 
+    public interface ISQLiteCommandWrapper : IDisposable
+    {
+        object ExecuteScalar();
+        void ParametersAddWithValue(string paramName, object value);
+    }
 }

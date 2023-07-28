@@ -42,7 +42,7 @@ namespace DemoConsoleApp
             }
         }
 
-        public void InsertPayload(Payload payload)
+        internal void InsertPayload(Payload payload)
         {
             using (var connection = GetConnection())
             {

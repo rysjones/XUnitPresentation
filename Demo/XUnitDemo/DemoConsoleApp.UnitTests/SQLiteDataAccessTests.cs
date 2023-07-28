@@ -1,6 +1,6 @@
-﻿using DemoConsoleApp.Helpers;
+﻿using DemoConsoleApp.Data;
+using DemoConsoleApp.Helpers;
 using Moq.Protected;
-using System.Data.SQLite;
 
 namespace DemoConsoleApp.UnitTests
 {
@@ -11,6 +11,8 @@ namespace DemoConsoleApp.UnitTests
         {
             // Arrange
             var requestId = "12345";
+            var payload = new Mock<Payload>();
+
             var mockConnectionWrapper = new Mock<ISQLiteConnectionWrapper>();
             mockConnectionWrapper.Setup(c => c.Open());
 
@@ -18,11 +20,12 @@ namespace DemoConsoleApp.UnitTests
             mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(1);
 
-            var mockDataAccess = new Mock<SQLiteDataAccess>(mockConnectionWrapper.Object) { CallBase = true };
-            mockDataAccess.Setup(d => d.IsPayloadExists(requestId)).CallBase();
-            mockDataAccess.Protected().Setup<SQLiteCommandWrapper>("CreateCommand").Returns(mockCommand.Object); 
+            var mockDataAccess = new Mock<ISQLiteDataAccess>() { CallBase = true };
+            mockCommand.Setup(c => c.ExecuteScalar()).Returns(true);
+            mockDataAccess.Protected().Setup("InsertPayload", payload.Object);
 
             // Act
+            mockDataAccess.Setup(x => x.IsPayloadExists(requestId)).Returns(true);
             var result = mockDataAccess.Object.IsPayloadExists(requestId);
 
             // Assert
@@ -36,25 +39,23 @@ namespace DemoConsoleApp.UnitTests
         {
             // Arrange
             var requestId = "56789";
-            var mockConnection = new Mock<SQLiteConnection>();
-            mockConnection.Setup(c => c.Open());
+            var mockConnectionWrapper = new Mock<ISQLiteConnectionWrapper>();
+            mockConnectionWrapper.Setup(c => c.Open());
 
-            var mockCommand = new Mock<SQLiteCommand>();
-            mockCommand.SetupGet(c => c.Connection).Returns(mockConnection.Object);
-            mockCommand.Setup(c => c.Parameters.AddWithValue("@RequestId", requestId));
+            var mockCommand = new Mock<SQLiteCommandWrapper>(mockConnectionWrapper.Object) { CallBase = true };
+            mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(0);
 
-            var mockDataAccess = new Mock<SQLiteDataAccess>() { CallBase = true };
-            mockDataAccess.Setup(d => d.GetConnection()).Returns(mockConnection.Object);
+            var mockDataAccess = new Mock<SQLiteDataAccess>(mockConnectionWrapper.Object) { CallBase = true };
             mockDataAccess.Setup(d => d.IsPayloadExists(requestId)).CallBase();
-            mockDataAccess.Protected().Setup<SQLiteCommand>("CreateCommand").Returns(mockCommand.Object);
+            mockDataAccess.Protected().Setup<SQLiteCommandWrapper>("CreateCommand").Returns(mockCommand.Object);
 
             // Act
             var result = mockDataAccess.Object.IsPayloadExists(requestId);
 
             // Assert
             Assert.False(result);
-            mockConnection.Verify(c => c.Open(), Times.Once);
+            mockConnectionWrapper.Verify(c => c.Open(), Times.Once);
             mockCommand.Verify(c => c.ExecuteScalar(), Times.Once);
         }
     }

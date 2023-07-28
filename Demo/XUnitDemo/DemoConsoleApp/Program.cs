@@ -10,7 +10,7 @@ namespace DemoConsoleApp
         {
             Console.WriteLine("Hello, Sign Team!");
 
-            PaylodData.InsertPayloadIfNotExists();
+            //PaylodData.InsertPayloadIfNotExists();
         }
     }
 }

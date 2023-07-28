@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SQLite;
 
 namespace DemoConsoleApp.Helpers
 {
@@ -30,8 +25,11 @@ namespace DemoConsoleApp.Helpers
         {
             throw new NotImplementedException();
         }
-
-        // Implement IDisposable and other methods as needed
     }
 
+    public interface ISQLiteConnectionWrapper : IDisposable
+    {
+        void Open();
+        ISQLiteCommandWrapper CreateCommand();
+    }
 }
