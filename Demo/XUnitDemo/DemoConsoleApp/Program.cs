@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using DemoConsoleApp.Data;
 using System;
 
 namespace DemoConsoleApp
@@ -8,6 +9,8 @@ namespace DemoConsoleApp
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello, Sign Team!");
+
+            InitDB.Start();
         }
     }
 }
