@@ -15,6 +15,7 @@ namespace DemoConsoleApp.UnitTests
 
             var mockConnectionWrapper = new Mock<ISQLiteConnectionWrapper>();
             mockConnectionWrapper.Setup(c => c.Open());
+            mockConnectionWrapper.Object.Open();
 
             var mockCommand = new Mock<SQLiteCommandWrapper>(mockConnectionWrapper.Object) { CallBase = true };  
             mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));
@@ -23,6 +24,7 @@ namespace DemoConsoleApp.UnitTests
             var mockDataAccess = new Mock<ISQLiteDataAccess>() { CallBase = true };
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(true);
             mockDataAccess.Protected().Setup("InsertPayload", payload.Object);
+            mockCommand.Object.ExecuteScalar();
 
             // Act
             mockDataAccess.Setup(x => x.IsPayloadExists(requestId)).Returns(true);
