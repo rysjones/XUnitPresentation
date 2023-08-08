@@ -1,6 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-using DemoConsoleApp.Data;
-using System;
+﻿using DemoConsoleApp.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace DemoConsoleApp
 {
@@ -8,9 +7,32 @@ namespace DemoConsoleApp
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, Sign Team!");
+            IConfiguration configuration = new ConfigurationBuilder()
+              .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+              .AddEnvironmentVariables()
+              .AddCommandLine(args)
+              .Build();
+            string connectionString = configuration["AppSettings:ConnectionString"];
+            string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, connectionString);
+            if (args.Length > 0) {
+                string basePath = AppDomain.CurrentDomain.BaseDirectory.Replace(".UnitTests", string.Empty);
+                dbPath = Path.GetFullPath(basePath + args[0]);
+            }
 
-            //PaylodData.InsertPayloadIfNotExists();
+            // Init Payload Data Demo
+            PaylodData.InsertPayloadIfNotExists(dbPath);
+
+            Console.WriteLine("Hello, Sign Team!\n");
+                       
+            Console.WriteLine($"ConnectionString: {connectionString}\n");
+
+            SQLiteDataAccess dataAccess = new SQLiteDataAccess(dbPath);
+            var payloads = dataAccess.GetAllPayloads();
+            Console.WriteLine("Records Count: {0}\n", payloads.Count );
+            foreach ( var payload in payloads ) { 
+                Console.WriteLine("RequestId: {0}\n",payload.RequestId);
+            }
         }
     }
 }

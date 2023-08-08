@@ -16,6 +16,18 @@ namespace DemoConsoleApp.Helpers
             _sqliteDataAccess = sqliteDataAccess;
         }
 
+        public List<Payload> GetAllPayloads()
+        {
+            try
+            {
+                return _sqliteDataAccess.GetAllPayloads();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public virtual bool InsertPayload(Payload payload)
         {
             try
@@ -38,6 +50,6 @@ namespace DemoConsoleApp.Helpers
     {
         bool IsPayloadExists(string requestId);
         protected bool InsertPayload(Payload payload);
-        // Add other methods as needed
+        List<Payload> GetAllPayloads();
     }
 }

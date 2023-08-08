@@ -8,9 +8,9 @@ namespace DemoConsoleApp
     {
         private readonly string _databasePath;
 
-        public SQLiteDataAccess(string databaseName)
+        public SQLiteDataAccess(string databasePath)
         {
-            _databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseName);
+            _databasePath = databasePath;
         }
 
         public SQLiteConnection GetConnection()

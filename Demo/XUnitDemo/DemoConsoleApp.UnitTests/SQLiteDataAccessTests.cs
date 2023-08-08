@@ -1,6 +1,8 @@
 ﻿using DemoConsoleApp.Data;
 using DemoConsoleApp.Helpers;
+using Moq;
 using Moq.Protected;
+using System.Data.SQLite;
 
 namespace DemoConsoleApp.UnitTests
 {
@@ -17,7 +19,8 @@ namespace DemoConsoleApp.UnitTests
             mockConnectionWrapper.Setup(c => c.Open());
             mockConnectionWrapper.Object.Open();
 
-            var mockCommand = new Mock<SQLiteCommandWrapper>(mockConnectionWrapper.Object) { CallBase = true };  
+
+            var mockCommand = new Mock<SQLiteCommandWrapper>() { CallBase = true };  
             mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(1);
 

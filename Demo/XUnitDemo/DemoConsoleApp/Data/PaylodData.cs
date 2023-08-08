@@ -2,9 +2,9 @@
 {
     public class PaylodData
     {
-        public static void InsertPayloadIfNotExists()
+        public static void InsertPayloadIfNotExists(string databasePath)
         {
-            SQLiteDataAccess dataAccess = new SQLiteDataAccess("payloads.db");
+            SQLiteDataAccess dataAccess = new SQLiteDataAccess(databasePath);
             if (dataAccess.IsPayloadExists())
             {
                 // Data already exists, do not insert
