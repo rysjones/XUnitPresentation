@@ -1,4 +1,4 @@
-namespace UnitTestingProject;
+namespace UnitTestingProject.Services;
 
 public class MathService
 {
@@ -17,7 +17,7 @@ public class MathService
         return a / b;
     }
 
-    public int Subtract(int a, int b)
+    public int Substract(int a, int b)
     {
         return a - b;
     }

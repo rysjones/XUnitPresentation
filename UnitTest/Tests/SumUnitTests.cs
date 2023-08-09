@@ -1,10 +1,10 @@
 namespace UnitTestingProject;
-
 // dotnet test --filter FullyQualifiedName=UnitTestingProject.SumUnitTests.Add_Number
 
+//No need for class decoration
 public class SumUnitTests
 {
-    [Fact]
+    [Fact] //Fact: Tests which are always true.
     public void Add_Numbers()
     {
         //Arrange
@@ -17,4 +17,3 @@ public class SumUnitTests
         Assert.Equal(3, result);
     }
 }
-
