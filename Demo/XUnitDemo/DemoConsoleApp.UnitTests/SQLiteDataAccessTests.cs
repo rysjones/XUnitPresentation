@@ -2,7 +2,6 @@
 using DemoConsoleApp.Helpers;
 using Moq;
 using Moq.Protected;
-using System.Data.SQLite;
 
 namespace DemoConsoleApp.UnitTests
 {
@@ -46,14 +45,16 @@ namespace DemoConsoleApp.UnitTests
             var requestId = "56789";
             var mockConnectionWrapper = new Mock<ISQLiteConnectionWrapper>();
             mockConnectionWrapper.Setup(c => c.Open());
+            mockConnectionWrapper.Object.Open();    
 
             var mockCommand = new Mock<SQLiteCommandWrapper>(mockConnectionWrapper.Object) { CallBase = true };
             mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(0);
+            mockCommand.Object.ExecuteScalar();
 
-            var mockDataAccess = new Mock<SQLiteDataAccess>(mockConnectionWrapper.Object) { CallBase = true };
-            mockDataAccess.Setup(d => d.IsPayloadExists(requestId)).CallBase();
-            mockDataAccess.Protected().Setup<SQLiteCommandWrapper>("CreateCommand").Returns(mockCommand.Object);
+            var mockDataAccess = new Mock<ISQLiteDataAccess>() { CallBase = true };
+            mockDataAccess.Setup(d => d.IsPayloadExists(requestId)).Returns(false);
+            mockDataAccess.Protected().Setup("CreateCommand");
 
             // Act
             var result = mockDataAccess.Object.IsPayloadExists(requestId);

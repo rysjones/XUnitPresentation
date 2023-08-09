@@ -45,11 +45,26 @@ namespace DemoConsoleApp.Helpers
         {
             return _sqliteDataAccess.IsPayloadExists(requestId);
         }
+
+        public virtual bool CreateCommand()
+        {
+            try
+            {
+                _sqliteDataAccess.InitializeDatabase();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return true;
+        }
+
     }
     public interface ISQLiteDataAccess
     {
         bool IsPayloadExists(string requestId);
         protected bool InsertPayload(Payload payload);
+        protected bool CreateCommand();
         List<Payload> GetAllPayloads();
     }
 }

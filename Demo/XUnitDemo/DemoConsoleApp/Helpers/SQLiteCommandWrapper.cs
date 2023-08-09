@@ -10,6 +10,15 @@ namespace DemoConsoleApp.Helpers
         {
             _command = command;
         }
+        
+        public SQLiteCommandWrapper()
+        {
+            _command = new SQLiteCommand();
+        }
+
+        public SQLiteCommandWrapper(ISQLiteConnectionWrapper sQLiteConnection)
+        {
+        }
 
         public void Dispose()
         {

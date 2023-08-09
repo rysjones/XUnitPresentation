@@ -16,12 +16,12 @@ namespace DemoConsoleApp.Helpers
             _connection.Open();
         }
 
-        public ISQLiteCommandWrapper CreateCommand()
+        public void Dispose()
         {
-            return new SQLiteCommandWrapper(_connection.CreateCommand());
+            throw new NotImplementedException();
         }
 
-        public void Dispose()
+        ISQLiteCommandWrapper ISQLiteConnectionWrapper.CreateCommand()
         {
             throw new NotImplementedException();
         }
@@ -30,6 +30,6 @@ namespace DemoConsoleApp.Helpers
     public interface ISQLiteConnectionWrapper : IDisposable
     {
         void Open();
-        ISQLiteCommandWrapper CreateCommand();
+        protected ISQLiteCommandWrapper CreateCommand();
     }
 }

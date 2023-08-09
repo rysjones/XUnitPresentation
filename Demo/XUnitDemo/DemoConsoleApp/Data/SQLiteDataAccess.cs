@@ -1,5 +1,4 @@
 ﻿using DemoConsoleApp.Data;
-using DemoConsoleApp.Helpers;
 using System.Data.SQLite;
 
 namespace DemoConsoleApp
@@ -69,17 +68,24 @@ namespace DemoConsoleApp
         // Check if the payload with given RequestId exists
         public bool IsPayloadExists()
         {
-            using (var connection = GetConnection())
+            try
             {
-                connection.Open();
-
-                var selectQuery = "SELECT COUNT(*) FROM Payloads LIMIT 1";
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var connection = GetConnection())
                 {
-                    var result = (long)command.ExecuteScalar();
-                    return result > 0;
+                    connection.Open();
+
+                    var selectQuery = "SELECT COUNT(*) FROM Payloads LIMIT 1";
+                    using (var command = new SQLiteCommand(selectQuery, connection))
+                    {
+                        var result = (long)command.ExecuteScalar();
+                        return result > 0;
+                    }
                 }
             }
+            catch (Exception)
+            { 
+            }
+            return false;
         }
 
         // Check if the payload with given RequestId exists
