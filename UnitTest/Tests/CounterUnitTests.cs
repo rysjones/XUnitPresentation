@@ -1,7 +1,4 @@
-﻿using UnitTestingProject.Orderers;
-using Xunit.Abstractions;
-
-namespace UnitTestingProject;
+﻿namespace UnitTestingProject;
 // dotnet test --filter FullyQualifiedName~UnitTestingProject.CounterUnitTests --logger "console;verbosity=detailed"
 
 [TestCaseOrderer("UnitTestingProject.Orderers.PriorityOrderer", "UnitTestingProject")]
