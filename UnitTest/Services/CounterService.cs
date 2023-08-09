@@ -1,6 +1,6 @@
 ﻿namespace UnitTestingProject.Services;
 
-internal class CounterService
+public class CounterService
 {
     private int _counter;
 
