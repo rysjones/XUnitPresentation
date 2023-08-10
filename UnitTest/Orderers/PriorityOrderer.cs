@@ -1,12 +1,11 @@
-﻿using Xunit.Abstractions;
-using Xunit.Sdk;
+﻿using Xunit.Sdk;
 
 namespace UnitTestingProject.Orderers;
 
 public class PriorityOrderer : ITestCaseOrderer
 {
     private const string Argument = "Priority";
-    
+
     public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases) where TTestCase : ITestCase
     {
         var sortedMethods = new SortedDictionary<int, List<TTestCase>>();
