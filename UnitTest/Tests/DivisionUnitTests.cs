@@ -1,5 +1,5 @@
 ﻿namespace UnitTestingProject;
-// dotnet test --filter FullyQualifiedName~UnitTestingProject.DivisionUnitTests
+// dotnet test --filter FullyQualifiedName~UnitTestingProject.DivisionUnitTests --logger "console;verbosity=detailed"
 
 public class DivisionUnitTests
 {
