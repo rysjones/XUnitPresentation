@@ -2,7 +2,7 @@
 
 namespace DemoConsoleApp.Helpers
 {
-    public class SQLiteCommandWrapper : ISQLiteCommandWrapper
+    public class SQLiteCommandWrapper : ISQLiteCommand
     {
         private readonly SQLiteCommand _command;
 
@@ -10,13 +10,13 @@ namespace DemoConsoleApp.Helpers
         {
             _command = command;
         }
-        
+
         public SQLiteCommandWrapper()
         {
             _command = new SQLiteCommand();
         }
 
-        public SQLiteCommandWrapper(ISQLiteConnectionWrapper sQLiteConnection)
+        public SQLiteCommandWrapper(ISQLiteConnection sQLiteConnection)
         {
         }
 
@@ -36,7 +36,7 @@ namespace DemoConsoleApp.Helpers
         }
     }
 
-    public interface ISQLiteCommandWrapper : IDisposable
+    public interface ISQLiteCommand : IDisposable
     {
         object ExecuteScalar();
         void ParametersAddWithValue(string paramName, object value);

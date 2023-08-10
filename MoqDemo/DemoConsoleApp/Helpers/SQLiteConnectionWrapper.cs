@@ -2,7 +2,7 @@
 
 namespace DemoConsoleApp.Helpers
 {
-    public class SQLiteConnectionWrapper : ISQLiteConnectionWrapper
+    public class SQLiteConnectionWrapper : ISQLiteConnection
     {
         private readonly SQLiteConnection _connection;
 
@@ -21,15 +21,15 @@ namespace DemoConsoleApp.Helpers
             throw new NotImplementedException();
         }
 
-        ISQLiteCommandWrapper ISQLiteConnectionWrapper.CreateCommand()
+        ISQLiteCommand ISQLiteConnection.CreateCommand()
         {
             throw new NotImplementedException();
         }
     }
 
-    public interface ISQLiteConnectionWrapper : IDisposable
+    public interface ISQLiteConnection : IDisposable
     {
         void Open();
-        protected ISQLiteCommandWrapper CreateCommand();
+        protected ISQLiteCommand CreateCommand();
     }
 }

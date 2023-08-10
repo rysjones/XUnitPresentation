@@ -14,12 +14,12 @@ namespace DemoConsoleApp.UnitTests
             var requestId = "12345";
             var payload = new Mock<Payload>();
 
-            var mockConnectionWrapper = new Mock<ISQLiteConnectionWrapper>();
+            var mockConnectionWrapper = new Mock<ISQLiteConnection>();
             mockConnectionWrapper.Setup(c => c.Open());
             mockConnectionWrapper.Object.Open();
 
 
-            var mockCommand = new Mock<SQLiteCommandWrapper>() { CallBase = true };  
+            var mockCommand = new Mock<SQLiteCommandWrapper>() { CallBase = true };
             mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(1);
 
@@ -43,9 +43,9 @@ namespace DemoConsoleApp.UnitTests
         {
             // Arrange
             var requestId = "56789";
-            var mockConnectionWrapper = new Mock<ISQLiteConnectionWrapper>();
+            var mockConnectionWrapper = new Mock<ISQLiteConnection>();
             mockConnectionWrapper.Setup(c => c.Open());
-            mockConnectionWrapper.Object.Open();    
+            mockConnectionWrapper.Object.Open();
 
             var mockCommand = new Mock<SQLiteCommandWrapper>(mockConnectionWrapper.Object) { CallBase = true };
             mockCommand.Setup(c => c.ParametersAddWithValue("@RequestId", requestId));

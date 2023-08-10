@@ -159,6 +159,41 @@ namespace DemoConsoleApp
             return payloads;
         }
 
+        // Get payload by RequestId
+        public Payload GetPayloadById(string requestId)
+        {
+            var payload = new Payload();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+
+                var selectQuery = $"SELECT * FROM Payloads WHERE RequestId = @RequestId";
+
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@RequestId", requestId);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            payload = new Payload
+                            {
+                                RequestId = reader.GetString(0),
+                                ClientId = reader.GetString(1),
+                                File = reader.GetString(2),
+                                Status = reader.GetString(3),
+                                Message = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                TimeStamp = reader.GetDateTime(5)
+                            };
+
+                        }
+                    }
+                }
+            }
+
+            return payload;
+        }
 
 
     }

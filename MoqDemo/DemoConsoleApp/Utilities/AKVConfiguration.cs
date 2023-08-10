@@ -10,7 +10,7 @@ namespace DemoConsoleApp.Utilities
             var config = new AKVConfig();
             try
             {
-                string jsonFilePath = @"C:\temp\akv\AKVConfigX.json";
+                string jsonFilePath = @"C:\temp\akv\AKVConfig.json";
                 string jsonContent = File.ReadAllText(jsonFilePath);
                 config = JsonConvert.DeserializeObject<AKVConfig>(jsonContent);
 

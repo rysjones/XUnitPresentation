@@ -38,7 +38,7 @@ namespace DemoConsoleApp.UnitTests
             var mockClientCertificateCredential = new Mock<ClientCertificateCredential>(
                 "123", "456", It.IsAny<X509Certificate2>(), It.IsAny<ClientCertificateCredentialOptions>());
 
-            var mockWrapper = new Mock<IKeyVaultManagerWrapper>();
+            var mockWrapper = new Mock<IKeyVaultManager>();
             mockWrapper.Setup(wrapper => wrapper.GetConnString()).Returns("dummy-connection-string");
 
             // Act
@@ -63,7 +63,7 @@ namespace DemoConsoleApp.UnitTests
                 "dummyTenantId", "dummyClientId", mockX509Certificate2.Object, It.IsAny<ClientCertificateCredentialOptions>());
             
             // Arrange
-            var mockWrapper = new Mock<IKeyVaultManagerWrapper>();
+            var mockWrapper = new Mock<IKeyVaultManager>();
             mockWrapper.Setup(wrapper => wrapper.GetConnString()).Returns("dummy-connection-string");
 
             // Act

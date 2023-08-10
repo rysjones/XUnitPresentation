@@ -1,18 +1,13 @@
 ﻿using DemoConsoleApp.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemoConsoleApp.Helpers
 {
-    public interface IKeyVaultManagerWrapper
+    public interface IKeyVaultManager
     {
         string GetConnString();
     }
 
-    public class KeyVaultManagerWrapper : IKeyVaultManagerWrapper
+    public class KeyVaultManagerWrapper : IKeyVaultManager
     {
         private KeyVaultManager _keyVaultManager;
 

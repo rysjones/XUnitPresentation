@@ -1,9 +1,4 @@
 ﻿using DemoConsoleApp.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemoConsoleApp.Helpers
 {
@@ -21,6 +16,18 @@ namespace DemoConsoleApp.Helpers
             try
             {
                 return _sqliteDataAccess.GetAllPayloads();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Payload GetPayloadById(string requestId)
+        {
+            try
+            {
+                return _sqliteDataAccess.GetPayloadById(requestId);
             }
             catch (Exception)
             {
@@ -61,10 +68,11 @@ namespace DemoConsoleApp.Helpers
 
     }
     public interface ISQLiteDataAccess
-    {
+    { 
         bool IsPayloadExists(string requestId);
         protected bool InsertPayload(Payload payload);
         protected bool CreateCommand();
         List<Payload> GetAllPayloads();
+        Payload GetPayloadById(string requestId);
     }
 }
