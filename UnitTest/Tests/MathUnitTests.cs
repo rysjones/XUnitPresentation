@@ -1,5 +1,5 @@
 ﻿namespace UnitTestingProject;
-// dotnet test --filter FullyQualifiedName~UnitTestingProject.MathUnitTests
+// dotnet test --filter FullyQualifiedName~UnitTestingProject.MathUnitTests --logger "console;verbosity=detailed"
 
 public class MathUnitTests : IClassFixture<MathService>
 {
