@@ -15,6 +15,7 @@ namespace DemoConsoleApp
               .Build();
             string connectionString = configuration["AppSettings:ConnectionString"];
             string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, connectionString);
+
             if (args.Length > 0) {
                 string basePath = AppDomain.CurrentDomain.BaseDirectory.Replace(".UnitTests", string.Empty);
                 dbPath = Path.GetFullPath(basePath + args[0]);
