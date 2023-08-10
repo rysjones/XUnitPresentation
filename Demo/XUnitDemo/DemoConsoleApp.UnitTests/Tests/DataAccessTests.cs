@@ -5,7 +5,7 @@ using Moq.Protected;
 
 namespace DemoConsoleApp.UnitTests
 {
-    public class SQLiteDataAccessTests
+    public class DataAccessTests
     {
         [Fact]
         public void IsPayloadExists_ExistingPayload_ReturnsTrue()

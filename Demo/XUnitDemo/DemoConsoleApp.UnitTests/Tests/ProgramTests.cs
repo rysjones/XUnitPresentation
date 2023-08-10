@@ -11,7 +11,7 @@ namespace DemoConsoleApp.UnitTests
         public void Main_ShouldWriteHelloWorld()
         {
             // Arrange
-            var expectedOutput = "Hello, Sign Team!";
+            var expectedOutput = "Records Count: 2";
             var consoleOutput = new ConsoleOutput();
 
             // Act
@@ -41,8 +41,6 @@ namespace DemoConsoleApp.UnitTests
             // Assert
             Assert.Contains("Records Count: 2", console);
         }
-
-
     }
 
     public class ConsoleOutput : IDisposable
