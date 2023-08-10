@@ -1,7 +1,7 @@
 ﻿namespace UnitTestingProject;
 // dotnet test --filter FullyQualifiedName~UnitTestingProject.MathUnitTests --logger "console;verbosity=detailed"
 
-public class MathUnitTests
+public class MathUnitTests : IDisposable
 {
     private readonly MathService _math;
 
@@ -9,6 +9,12 @@ public class MathUnitTests
     {
         //Arrange
         _math = new MathService();
+    }
+
+    public void Dispose() //Dispose is our teardown method.
+    {
+        _math.Equals(null); //No need to do this for managed resources.
+        GC.SuppressFinalize(this);
     }
 
     [Fact]
