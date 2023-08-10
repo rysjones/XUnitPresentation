@@ -1,13 +1,13 @@
 ﻿namespace UnitTestingProject;
 // dotnet test --filter FullyQualifiedName~UnitTestingProject.MathUnitTests
 
-public class MathUnitTests
+public class MathUnitTests : IClassFixture<MathService>
 {
     private readonly MathService _math;
-    public MathUnitTests()
+    public MathUnitTests(MathService math) //Constructors are our setup method.
     {
         //Arrange
-        _math = new MathService();
+        _math = math;
     }
 
     [Fact]
@@ -18,6 +18,7 @@ public class MathUnitTests
 
         //Assert
         Assert.Equal(2, result);
+        CustomAssert.IsEven(result);
     }
 
     [Fact]
@@ -28,5 +29,6 @@ public class MathUnitTests
 
         //Assert
         Assert.Equal(100, result);
+        CustomAssert.IsEven(result);
     }
 }

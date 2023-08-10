@@ -1,16 +1,22 @@
-﻿namespace UnitTestingProject;
-// dotnet test --filter FullyQualifiedName~UnitTestingProject.CounterUnitTests
+﻿using UnitTestingProject.Orderers;
+using Xunit.Abstractions;
 
-public class CounterUnitTests : IDisposable
+namespace UnitTestingProject;
+// dotnet test --filter FullyQualifiedName~UnitTestingProject.CounterUnitTests --logger "console;verbosity=detailed"
+
+[TestCaseOrderer("UnitTestingProject.Orderers.PriorityOrderer", "UnitTestingProject")]
+public class CounterUnitTests : IDisposable, IClassFixture<CounterService>
 {
-    private readonly CounterService _counterService;
+    public readonly CounterService _counterService;
+    private readonly ITestOutputHelper _output;
 
-    public CounterUnitTests() //Constructors are our setup method.
+    public CounterUnitTests(CounterService counterService, ITestOutputHelper output)
     {
-        _counterService = new CounterService();
+        _counterService = counterService;
+        _output = output;
     }
 
-    [Fact]
+    [Fact, Priority(1)]
     public void Add_ShouldIncrementCounter()
     {
         // Arrange
@@ -19,25 +25,30 @@ public class CounterUnitTests : IDisposable
         // Act
         var actual = _counterService.Add();
 
+        _output.WriteLine($"Counter is {actual}");
+
         // Assert
         Assert.Equal(expected, actual);
     }
 
-    [Fact] //Context from Add_ShouldIncrementCounter doesnt affect this test.
-    public void Same_Add_ShouldIncrementCounter()
+    [Fact, Priority(2)] //Context from Add_ShouldIncrementCounter does affect this test, since we are sharing the context.
+    public void Second_Add_ShouldIncrementCounter()
     {
         // Arrange
-        var expected = 1;
+        var expected = _counterService.Get();
 
         // Act
         var actual = _counterService.Add();
 
+        _output.WriteLine($"Second Counter is {actual}");
+
         // Assert
-        Assert.Equal(expected, actual);
+        Assert.Equal(++expected, actual);
     }
 
-    public void Dispose() //Dispose is our teardown method (if necessary) for managed code, it is not.
+    public void Dispose()
     {
         _counterService.Equals(null);
+        GC.SuppressFinalize(this);
     }
 }
