@@ -1,13 +1,14 @@
 ﻿namespace UnitTestingProject;
 // dotnet test --filter FullyQualifiedName~UnitTestingProject.MathUnitTests --logger "console;verbosity=detailed"
 
-public class MathUnitTests : IClassFixture<MathService>
+public class MathUnitTests
 {
     private readonly MathService _math;
-    public MathUnitTests(MathService math) //Constructors are our setup method.
+
+    public MathUnitTests() //Constructors are our setup method.
     {
         //Arrange
-        _math = math;
+        _math = new MathService();
     }
 
     [Fact]
