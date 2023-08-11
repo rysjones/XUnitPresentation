@@ -4,18 +4,9 @@ public class CounterService
 {
     private int _counter;
 
-    public CounterService()
-    {
-        _counter = 0;
-    }
+    public CounterService() => _counter = 0;
 
-    public int Add()
-    {
-        return ++_counter;
-    }
+    public int Add() => ++_counter;
 
-    public int Get()
-    {
-        return _counter;
-    }
+    public int Get() => _counter;
 }

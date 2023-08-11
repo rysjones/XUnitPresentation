@@ -1,5 +1,5 @@
 namespace UnitTestingProject;
-// dotnet test --filter FullyQualifiedName=UnitTestingProject.SumUnitTests.Add_Number
+// dotnet test --filter FullyQualifiedName=UnitTestingProject.SumUnitTests.Add_Numbers
 
 //No need for class decoration
 public class SumUnitTests

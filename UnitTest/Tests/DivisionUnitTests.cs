@@ -1,5 +1,5 @@
 ﻿namespace UnitTestingProject;
-// dotnet test --filter FullyQualifiedName~UnitTestingProject.DivisionUnitTests
+// dotnet test --filter FullyQualifiedName~UnitTestingProject.DivisionUnitTests --logger "console;verbosity=detailed"
 
 public class DivisionUnitTests
 {
@@ -19,7 +19,7 @@ public class DivisionUnitTests
         Assert.Equal(quotient, result);
     }
 
-    [Fact]
+    [Fact] //Fact: Tests which are always true.
     public void Divide_Numbers_By_Zero()
     {
         //Arrange

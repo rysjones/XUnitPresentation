@@ -1,7 +1,7 @@
 ﻿using UnitTestingProject.TestFixtures;
 
 namespace UnitTestingProject;
-//dotnet test --filter "Category=Cache"
+// dotnet test --filter "Category=Cache" --logger "console;verbosity=detailed"
 
 [Collection("CacheCollection")]
 [Trait("Category", "Cache")]

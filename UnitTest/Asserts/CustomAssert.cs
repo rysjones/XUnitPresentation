@@ -3,7 +3,7 @@
 
 public class CustomAssert : Assert
 {
-    public static void IsEven( int value)
+    public static void IsEven(int value)
     {
         if (value % 2 != 0)
             throw IsEvenException.ForNonEvenValue(value);
