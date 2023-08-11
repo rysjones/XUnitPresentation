@@ -6,7 +6,7 @@ using Moq.Protected;
 using System.Data.Common;
 using System.Data.SQLite;
 
-namespace DemoConsoleApp.UnitTests.Tests
+namespace DemoConsoleApp.UnitTests
 {
     public class PayloadServiceTests
     {
