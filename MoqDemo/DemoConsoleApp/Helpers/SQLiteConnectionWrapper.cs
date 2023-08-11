@@ -16,20 +16,33 @@ namespace DemoConsoleApp.Helpers
             _connection.Open();
         }
 
+        public void Close()
+        {
+            _connection.Close();
+        }
+
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _connection?.Dispose();
         }
 
         ISQLiteCommand ISQLiteConnection.CreateCommand()
         {
-            throw new NotImplementedException();
+            ISQLiteCommand cmd = new SQLiteCommandWrapper();
+            return cmd;
+        }
+
+        SQLiteConnection ISQLiteConnection.Connection(string connectionString)
+        {
+            return new SQLiteConnection(connectionString);
         }
     }
 
     public interface ISQLiteConnection : IDisposable
     {
         void Open();
-        protected ISQLiteCommand CreateCommand();
+        void Close();
+        ISQLiteCommand CreateCommand();
+        SQLiteConnection Connection(string connectionString);
     }
 }

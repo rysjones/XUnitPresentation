@@ -1,6 +1,7 @@
-﻿using DemoConsoleApp.Data;
+﻿using DemoConsoleApp.Helpers;
 using DemoConsoleApp.Utilities;
 using Microsoft.Extensions.Configuration;
+using System.Data.SQLite;
 
 namespace DemoConsoleApp
 {
@@ -23,16 +24,16 @@ namespace DemoConsoleApp
                 dbPath = Path.GetFullPath(basePath + args[0]);
             }
 #endif
+            var sqlConn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
 
             // Get Connection String from AKV
             var akvConnString = KeyVaultManager.GetConnStringFromAKV();
 
             // Init Payload Data Demo
-            PaylodData.InsertPayloadIfNotExists(dbPath);
+            PayloadDataHelper.InsertPayloadIfNotExists(sqlConn);
                        
             Console.WriteLine($"ConnectionString: {connectionString}\n");
-
-            SQLiteDataAccess dataAccess = new SQLiteDataAccess(dbPath);
+            SQLiteDataAccess dataAccess = new SQLiteDataAccess(sqlConn);
             var payloads = dataAccess.GetAllPayloads();
             Console.WriteLine("Records Count: {0}\n", payloads.Count );
             foreach ( var payload in payloads ) { 

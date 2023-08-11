@@ -1,25 +1,63 @@
 ﻿using DemoConsoleApp.Data;
 using DemoConsoleApp.Helpers;
+using DemoConsoleApp.Services;
 using Moq;
+using Moq.Protected;
 using System.Data.Common;
+using System.Data.SQLite;
 
 namespace DemoConsoleApp.UnitTests.Tests
 {
     public class PayloadServiceTests
     {
+
         [Fact]
+        public void TestInsertPayload_WithValidPayload_InsertsSuccessfully()
+        {
+            // Arrange
+            var validPayload = new Payload
+            {
+                RequestId = "9874",
+                ClientId = "ClientX",
+                File = "file3.txt",
+                Status = "Success",
+                Message = "File processed successfully",
+                TimeStamp = DateTime.Now
+            };
+            string basePath = AppDomain.CurrentDomain.BaseDirectory.Replace(".UnitTests", string.Empty);
+            var dbPath = Path.GetFullPath(basePath + "payloads.db");
+            var sqlConn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+
+            var mockConnection = new Mock<ISQLiteConnection>();
+            var mockCommand = new Mock<ISQLiteCommand>();
+
+            mockConnection.Setup(c => c.CreateCommand()).Returns(mockCommand.Object);
+            mockConnection.Setup(c => c.Open()).Verifiable();
+            mockConnection.Setup(c => c.Connection(dbPath)).Returns(sqlConn);
+            mockConnection.Setup(c => c.Close()).Verifiable();
+
+            var payloadService = new PayloadService(sqlConn);
+
+            // Act
+            var isAlreadyInserted = payloadService.InsertPayload(validPayload);
+
+            // Assert
+            Assert.True(isAlreadyInserted);
+        }
+
+    [Fact]
         public void TestGetPayloadById()
         {
             // Arrange
-            var requestId = "testRequestId";
+            var requestId = "6789";
             var expectedPayload = new Payload
             {
                 RequestId = requestId,
-                ClientId = "testClientId",
-                File = "testFile",
-                Status = "testStatus",
-                Message = "testMessage",
-                TimeStamp = DateTime.UtcNow
+                ClientId = "ClientX",
+                File = "file3.txt",
+                Status = "Success",
+                Message = "File processed successfully",
+                TimeStamp = DateTime.Now
             };
 
             var mockConnection = new Mock<ISQLiteConnection>();
@@ -46,7 +84,7 @@ namespace DemoConsoleApp.UnitTests.Tests
 
             var mockDataAccess = new Mock<ISQLiteDataAccess>() { CallBase = true };
             mockCommand.Setup(c => c.ExecuteScalar()).Returns(true);
-            mockDataAccess.Setup(c => c.GetPayloadById(expectedPayload.RequestId)).Returns(expectedPayload);
+            mockDataAccess.Protected().Setup("InsertPayload", expectedPayload);
             mockCommand.Object.ExecuteScalar();
 
             // Act

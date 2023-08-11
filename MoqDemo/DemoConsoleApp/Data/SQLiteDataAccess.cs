@@ -5,22 +5,17 @@ namespace DemoConsoleApp
 {
     public class SQLiteDataAccess
     {
-        private readonly string _databasePath;
+        private SQLiteConnection _sQLiteConnection;
 
-        public SQLiteDataAccess(string databasePath)
+        public SQLiteDataAccess(SQLiteConnection sQLiteConnection)
         {
-            _databasePath = databasePath;
-        }
-
-        public SQLiteConnection GetConnection()
-        {
-            return new SQLiteConnection($"Data Source={_databasePath};Version=3;");
+            _sQLiteConnection = sQLiteConnection;
         }
 
         // Initialize the database and table if they don't exist
         public void InitializeDatabase()
         {
-            using (var connection = GetConnection())
+            using (var connection = _sQLiteConnection)
             {
                 connection.Open();
 
@@ -43,7 +38,9 @@ namespace DemoConsoleApp
 
         internal void InsertPayload(Payload payload)
         {
-            using (var connection = GetConnection())
+            ValidatePayload(payload);
+
+            using (var connection = _sQLiteConnection)
             {
                 connection.Open();
 
@@ -65,12 +62,12 @@ namespace DemoConsoleApp
             }
         }
 
-        // Check if the payload with given RequestId exists
+        // Check if any payload exists
         public bool IsPayloadExists()
         {
             try
             {
-                using (var connection = GetConnection())
+                using (var connection = _sQLiteConnection)
                 {
                     connection.Open();
 
@@ -91,7 +88,7 @@ namespace DemoConsoleApp
         // Check if the payload with given RequestId exists
         public bool IsPayloadExists(string requestId)
         {
-            using (var connection = GetConnection())
+            using (var connection = _sQLiteConnection)
             {
                 connection.Open();
 
@@ -108,7 +105,7 @@ namespace DemoConsoleApp
         // Delete the payload with the given RequestId
         public void DeletePayload(string requestId)
         {
-            using (var connection = GetConnection())
+            using (var connection = _sQLiteConnection)
             {
                 connection.Open();
 
@@ -128,7 +125,7 @@ namespace DemoConsoleApp
         {
             var payloads = new List<Payload>();
 
-            using (var connection = GetConnection())
+            using (var connection = _sQLiteConnection)
             {
                 connection.Open();
 
@@ -164,7 +161,7 @@ namespace DemoConsoleApp
         {
             var payload = new Payload();
 
-            using (var connection = GetConnection())
+            using (var connection = _sQLiteConnection)
             {
                 connection.Open();
 
@@ -193,6 +190,30 @@ namespace DemoConsoleApp
             }
 
             return payload;
+        }
+
+
+        private void ValidatePayload(Payload payload)
+        {
+            if (payload == null)
+            {
+                throw new ArgumentNullException(nameof(payload), "Payload cannot be null.");
+            }
+
+            if (string.IsNullOrEmpty(payload.RequestId))
+            {
+                throw new ArgumentException("RequestId cannot be null or empty.", nameof(payload.RequestId));
+            }
+
+            if (string.IsNullOrEmpty(payload.ClientId))
+            {
+                throw new ArgumentException("ClientId cannot be null or empty.", nameof(payload.ClientId));
+            }
+
+            if (string.IsNullOrEmpty(payload.File))
+            {
+                throw new ArgumentException("File cannot be null or empty.", nameof(payload.File));
+            }
         }
 
 

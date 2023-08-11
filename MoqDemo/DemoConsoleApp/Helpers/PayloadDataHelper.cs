@@ -1,16 +1,19 @@
-﻿namespace DemoConsoleApp.Data
+﻿using DemoConsoleApp.Data;
+using System.Data.SQLite;
+
+namespace DemoConsoleApp.Helpers
 {
-    public class PaylodData
+    public class PayloadDataHelper
     {
-        public static void InsertPayloadIfNotExists(string databasePath)
+        public static void InsertPayloadIfNotExists(SQLiteConnection sQLiteConnection)
         {
-            SQLiteDataAccess dataAccess = new SQLiteDataAccess(databasePath);
+            SQLiteDataAccess dataAccess = new SQLiteDataAccess(sQLiteConnection);
             if (dataAccess.IsPayloadExists())
             {
                 // Data already exists, do not insert
                 return;
             }
-             
+
             dataAccess.InitializeDatabase();
 
             var payload1 = new Payload

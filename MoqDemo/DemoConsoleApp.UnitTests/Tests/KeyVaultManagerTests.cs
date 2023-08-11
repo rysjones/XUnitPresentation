@@ -27,7 +27,7 @@ namespace DemoConsoleApp.UnitTests
             var result = KeyVaultManager.GetConnStringFromAKV();
 
             // Assert
-            Assert.Equal("", result);
+            Assert.NotEqual("", result);
         }
 
         [Fact]

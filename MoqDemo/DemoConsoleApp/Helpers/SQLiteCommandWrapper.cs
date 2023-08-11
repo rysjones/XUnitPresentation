@@ -22,7 +22,12 @@ namespace DemoConsoleApp.Helpers
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _command?.Dispose();   
+        }
+
+        public virtual object CreateCommand()
+        {
+            return _command;
         }
 
         public virtual object ExecuteScalar()
