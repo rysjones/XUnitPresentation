@@ -1,10 +1,9 @@
 ﻿using DemoConsoleApp.Data;
-using DemoConsoleApp.Helpers;
 using System.Data.SQLite;
 
 namespace DemoConsoleApp.Services
 {
-    public class PayloadService
+    public class PayloadService: IPayloadService
     {
         private readonly SQLiteConnection _dbConnection;
 
@@ -28,5 +27,11 @@ namespace DemoConsoleApp.Services
             return sQLiteDataAccess.IsPayloadExists(requestId);
         }
 
+    }
+
+    public interface IPayloadService
+    {
+        bool InsertPayload(Payload payload);
+        bool IsPayloadExists(string requestId);
     }
 }

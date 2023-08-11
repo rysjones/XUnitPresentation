@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace DemoConsoleApp.Utilities
 {
-    public class AKVConfiguration
+    public class AKVConfiguration : IAKVConfiguration
     {
-        public static AKVConfig GetConfig()
+        public AKVConfig GetConfig()
         {
             var config = new AKVConfig();
             try
@@ -28,5 +28,10 @@ namespace DemoConsoleApp.Utilities
             }
             return config;
         }
+    }
+
+    public interface IAKVConfiguration
+    {
+        AKVConfig GetConfig();
     }
 }

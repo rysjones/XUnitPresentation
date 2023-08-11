@@ -1,6 +1,7 @@
 ﻿using DemoConsoleApp.Helpers;
 using DemoConsoleApp.Utilities;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Data.SQLite;
 
 namespace DemoConsoleApp
@@ -27,7 +28,9 @@ namespace DemoConsoleApp
             var sqlConn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
 
             // Get Connection String from AKV
-            var akvConnString = KeyVaultManager.GetConnStringFromAKV();
+            IAKVConfiguration akvConfig = new AKVConfiguration();
+            var akvManager = new KeyVaultManager(akvConfig);
+            var akvConnString = akvManager.GetConnStringFromAKV();
 
             // Init Payload Data Demo
             PayloadDataHelper.InsertPayloadIfNotExists(sqlConn);
