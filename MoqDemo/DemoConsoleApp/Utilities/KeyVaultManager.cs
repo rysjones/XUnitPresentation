@@ -1,7 +1,6 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using DemoConsoleApp.Data;
-using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
 namespace DemoConsoleApp.Utilities

@@ -87,6 +87,7 @@ namespace DemoConsoleApp.UnitTests.Tests
             mockDataAccess.Protected().Setup("InsertPayload", expectedPayload);
             mockCommand.Object.ExecuteScalar();
 
+
             // Act
             mockDataAccess.Setup(x => x.GetPayloadById(requestId)).Returns(expectedPayload);
             var result = mockDataAccess.Object.GetPayloadById(requestId);
@@ -103,7 +104,6 @@ namespace DemoConsoleApp.UnitTests.Tests
             // Verify
             mockDataAccess.Verify(f => f.GetPayloadById(expectedPayload.RequestId), Times.Once);
             mockConnection.Verify(c => c.Open(), Times.Once);
-            //mockCommand.Verify(c => c.ParametersAddWithValue("@RequestId", requestId), Times.Once);
         }
     }
 }
