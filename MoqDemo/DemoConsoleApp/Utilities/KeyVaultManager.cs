@@ -18,7 +18,7 @@ namespace DemoConsoleApp.Utilities
         public string GetConnStringFromAKV()
         {
             string errorMsg;
-            if (!ValidateConfigValues(out errorMsg)) throw new Exception(errorMsg);
+            if (!ValidateConfigValues(out errorMsg)) return "";
 
             try
             {
@@ -43,7 +43,7 @@ namespace DemoConsoleApp.Utilities
                 var _secret = secretClient.GetSecret(_config.KeyVaultSecretName);
                 return _secret.Value.Value;
             }
-            catch (Exception)
+            catch
             {
                 return "";
             }
