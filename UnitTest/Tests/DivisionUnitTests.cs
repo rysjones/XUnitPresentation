@@ -19,7 +19,7 @@ public class DivisionUnitTests
         Assert.Equal(quotient, result);
     }
 
-    [Fact]
+    [Fact] //Fact: Tests which are always true.
     public void Divide_Numbers_By_Zero()
     {
         //Arrange
