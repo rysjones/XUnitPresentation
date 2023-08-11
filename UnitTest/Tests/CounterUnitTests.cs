@@ -13,6 +13,12 @@ public class CounterUnitTests : IDisposable, IClassFixture<CounterService>
         _output = output;
     }
 
+    public void Dispose()
+    {
+        _counterService.Equals(null);
+        GC.SuppressFinalize(this);
+    }
+
     [Fact, Priority(1)]
     public void Add_ShouldIncrementCounter()
     {
@@ -41,11 +47,5 @@ public class CounterUnitTests : IDisposable, IClassFixture<CounterService>
 
         // Assert
         Assert.Equal(++expected, actual);
-    }
-
-    public void Dispose()
-    {
-        _counterService.Equals(null);
-        GC.SuppressFinalize(this);
     }
 }
